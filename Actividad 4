@@ -1,0 +1,58 @@
+Ubuntu:
+-Obtener información del sistema vulnerable
+Con la herramienta nmap escaneamos la dirección del sistema vulnerable.
+
+Starting Nmap 7.94 ( https://nmap.org ) at 2023-10-08 05:20 EDT
+Nmap scan report for 10.10.0.2
+Host is up (0.00092s latency).
+Not shown: 991 filtered tcp ports (no-response)
+PORT     STATE  SERVICE     VERSION
+21/tcp   open   ftp         ProFTPD 1.3.5
+22/tcp   open   ssh         OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.13 (Ubuntu Linux; protocol 2.0)
+80/tcp   open   http        Apache httpd 2.4.7 ((Ubuntu))
+445/tcp  open   netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+631/tcp  open   ipp         CUPS 1.7
+3000/tcp closed ppp
+3306/tcp open   mysql       MySQL (unauthorized)
+8080/tcp open   http        Jetty 8.1.7.v20120910
+8181/tcp closed intermapper
+MAC Address: 08:00:27:F1:A7:00 (Oracle VirtualBox virtual NIC)
+Service Info: Host: METASPLOITABLE3-UB1404; OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 16.04 seconds
+
+-Explorar e identificar vulnerabilidades del sistema 
+Con la heramienta metasploid framework indentificamos 2 vulnerabilidades: proftp y ssh.
+
+msf6 exploit(unix/ftp/proftpd_133c_backdoor) > search proftp
+Matching Modules
+================
+
+   #  Name                                         Disclosure Date  Rank       Check  Description
+   -  ----                                         ---------------  ----       -----  -----------
+   0  exploit/linux/misc/netsupport_manager_agent  2011-01-08       average    No     NetSupport Manager Agent Remote Buffer Overflow
+   1  exploit/windows/ftp/proftp_banner            2009-08-25       normal     No     ProFTP 2.9 Banner Remote Buffer Overflow
+   2  exploit/linux/ftp/proftp_sreplace            2006-11-26       great      Yes    ProFTPD 1.2 - 1.3.0 sreplace Buffer Overflow (Linux)
+   3  exploit/freebsd/ftp/proftp_telnet_iac        2010-11-01       great      Yes    ProFTPD 1.3.2rc3 - 1.3.3b Telnet IAC Buffer Overflow (FreeBSD)
+   4  exploit/linux/ftp/proftp_telnet_iac          2010-11-01       great      Yes    ProFTPD 1.3.2rc3 - 1.3.3b Telnet IAC Buffer Overflow (Linux)
+   5  exploit/unix/ftp/proftpd_modcopy_exec        2015-04-22       excellent  Yes    ProFTPD 1.3.5 Mod_Copy Command Execution
+   6  exploit/unix/ftp/proftpd_133c_backdoor       2010-12-02       excellent  No     ProFTPD-1.3.3c Backdoor Command Execution
+
+msf6 exploit(unix/ftp/proftpd_modcopy_exec) > search ssh
+
+Matching Modules
+================
+
+   #   Name                                                              Disclosure Date  Rank       Check  Description
+   -   ----                                                              ---------------  ----       -----  -----------
+   0   exploit/linux/http/alienvault_exec                                2017-01-31       excellent  Yes    AlienVault OSSIM/USM Remote Code Execution
+   1   auxiliary/scanner/ssh/apache_karaf_command_execution              2016-02-09       normal     No     Apache Karaf Default Credentials Command Execution
+   2   auxiliary/scanner/ssh/karaf_login                                                  normal     No     Apache Karaf Login Utility
+   3   exploit/apple_ios/ssh/cydia_default_ssh                           2007-07-02       excellent  No     Apple iOS Default SSH Password Vulnerability
+   4   exploit/unix/ssh/arista_tacplus_shell                             2020-02-02       great      Yes    Arista restricted shell escape (with privesc)
+   5   exploit/unix/ssh/array_vxag_vapv_privkey_privesc                  2014
+
+Explotar las vulnerabilidades
+exi
+
